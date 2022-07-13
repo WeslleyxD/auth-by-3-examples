@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserRegistrationForm, TESTANDOForm, UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
@@ -68,6 +68,7 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            return render(request, 'account/edit_done.html')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
@@ -75,6 +76,9 @@ def edit(request):
     return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+@login_required
+def edit_done(request):
+    return render(request, 'account/edit_done.html')
 
 
 
