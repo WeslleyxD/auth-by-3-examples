@@ -12,6 +12,8 @@
 
 <body>
     <div id="header">
+
+
         <span class="logo">Bookmarks</span>
         {% if request.user.is_authenticated %}
         <ul class="menu">
@@ -26,6 +28,7 @@
             </li>
         </ul>
         {% endif %}
+
         <span class="user">
             {% if request.user.is_authenticated %}
             Hello {{ request.user.first_name }},
@@ -35,8 +38,20 @@
             {% endif %}
         </span>
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">
+        {{ message|safe }}
+        <a href="#" class="close">x</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
     <div id="content">
         {% block content %}
+
         {% endblock %}
     </div>
 </body>
